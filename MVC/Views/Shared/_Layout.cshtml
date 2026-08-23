@@ -1,0 +1,230 @@
+﻿@{
+    @inject IConfiguration configuration
+    // This injects the IConfiguration service directly into the view making 
+    // configuration settings (appsettings.json) accessible without controller 
+    // dependencies. IConfiguration service may also be injected to the controllers.
+    // configuration is the local variable name that will be used in this view 
+    // such as to reach the Title section of appsettings.json, configuration["Title"] 
+    // will be used as below.
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    @* @ViewData["Title"] is set in views to show the title string values. *@
+    @* Change Users MVC to your project name. *@
+    <title>@ViewData["Title"] - @configuration["Title"]</title>
+    @* Changed from @ViewData["Title"] - Users MVC to use Title in appsettings.json *@
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MVC.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+
+        @* Bootstrap Navbar: top menu *@
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light 
+            bg-white border-bottom box-shadow mb-3">
+
+            @* 
+            Bootstrap container-fluid class is used for a responsive full-width 
+            (without any padding from left and right) div.
+            Bootstrap container class is used for a responsive fixed-width 
+            (with some padding from left and right) div.
+            *@
+
+            <div class="container-fluid">
+                @* 
+                Tag Helper: Tag Helpers enable server-side code to participate 
+                in creating and rendering HTML elements in Razor views. 
+                They look like standard HTML tags but add special attributes 
+                such as asp-controller, asp-action, asp-area, asp-route, asp-for, 
+                etc. that are processed on the server to generate dynamic content. 
+                Will create the HTML link: 
+                <a href="/Home/Index" class="navbar-brand">Users MVC</a> 
+                *@
+                @* Change Users MVC to your project name. *@
+                <a class="navbar-brand" asp-area="" asp-controller="Home" 
+                    asp-action="Index">@configuration["Title"]</a>
+                @* Changed from 
+                   <a class="navbar-brand" asp-area="" 
+                        asp-controller="Home" asp-action="Index">Users MVC</a>
+                   to use Title in appsettings.json 
+                *@
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                    data-bs-target=".navbar-collapse" 
+                    aria-controls="navbarSupportedContent" aria-expanded="false" 
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex 
+                    justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @* 
+                        Links directing to Home controller example actions: 
+                        Must not exist in your projects.
+                        *@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" 
+                                asp-controller="Home" asp-action="View1">View1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" 
+                                asp-controller="Home" asp-action="View2">View2</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" target="_blank" asp-area="" 
+                                asp-controller="Home" asp-action="Content1">Content1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" target="_blank" asp-area="" 
+                                asp-controller="Home" asp-action="Content2">Content2</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" 
+                                asp-controller="Home" asp-action="Redirect1">Redirect1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" target="_blank" asp-area="" 
+                                asp-controller="Home" asp-action="NotFound1">NotFound1</a>
+                        </li>
+
+                        @* Application Links: *@
+                        @* Only users in Admin role can see the Roles link. *@
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" 
+                                    asp-controller="Roles" asp-action="Index">Roles</a>
+                            </li>
+                        }
+                        @* Statuses link will be visible to everyone (authenticated
+                            and not authenticated users.) *@
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area=""
+                                asp-controller="Statuses" asp-action="Index">Statuses</a>
+                        </li>
+                        @* Only authenticated users can see the Users and Statuses links: *@
+                        @* Way 1: *@
+                        @* @if (User.IsInRole("Admin") || User.IsInRole("User")) *@
+                        @* Way 2: since we have only 2 roles, we don't need to 
+                            check all the roles *@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area=""
+                                    asp-controller="Users" asp-action="Index">Users</a>
+                            </li>
+
+                            // For temporary users session.
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area=""
+                                    asp-controller="UserSession" asp-action="Index">Temp Users</a>
+                            </li>
+                        }
+
+                    </ul>
+
+                    @* Authentication Links: *@
+                    @* 
+                        Will be displayed at the right side of the menu by the below 
+                        Bootstrap classes.
+                    *@
+                    <div class="navbar-text">
+                        <ul class="navbar-nav me-auto">
+                            @* 
+                                If user is authenticated (logged in) 
+                                show user name and log out. 
+                            *@
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+
+                                    @* Way 1: Displaying user name text. *@
+                                    @* <span>@User.Identity.Name</span> *@
+                                    @* 
+                                        Way 2: Optional link to direct the user to 
+                                        his/her user details. 
+                                    *@
+                                    @{
+                                        @* 
+                                            Getting the user's ID from the claims to 
+                                            direct the user to the user details with 
+                                            id route value. 
+                                        *@
+                                        var userId = @User.Claims .SingleOrDefault(
+                                            claim => claim.Type == "Id")?.Value;
+                                    }
+                                    <a class="nav-link text-dark" asp-area="" 
+                                        asp-controller="Users" asp-action="Details"
+                                        asp-route-id="@userId">@User.Identity.Name</a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" 
+                                        asp-controller="Auth" asp-action="Logout">Logout</a>
+                                </li>
+                            }
+                            else @* If user is not authenticated show register and login. *@
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" 
+                                        asp-controller="Auth" asp-action="Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" 
+                                        asp-controller="Auth" asp-action="Login">Login</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @* 
+        class changed from container to container-fluid to use 
+        full-width for the views. 
+    *@
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+
+            @* 
+                Renders the views' content returned by 
+                controllers' actions. 
+            *@
+            @RenderBody()
+
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+
+        @* 
+            class changed from container to container-fluid to use 
+            full-width for the footer. 
+        *@
+        <div class="container-fluid">
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @* 
+        Renders the optional Scripts section in the views which contains 
+        extra Javascript or jQuery codes, generally for using third-party 
+        Javascript-CSS client side libraries. 
+        Since the required parmeter is false, there must not be a Scripts 
+        secion in every view.
+    *@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

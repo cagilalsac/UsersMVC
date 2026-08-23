@@ -1,0 +1,69 @@
+﻿@model IEnumerable<UserSessionResponse>
+
+@{
+    ViewBag.Title = "Temporary Users";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (TempData["Message"] is not null)
+{
+    <p class="bg-warning text-dark">
+        @TempData["Message"]
+    </p>
+}
+@if (Model.Any()) @* if (Model.Count() > 0) can also be written. *@
+{
+    <table class="table">
+        <tr>
+            <td colspan="4">
+                <a asp-action="Clear">Clear Temp Users</a>
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScoreText)
+            </th>
+            <th></th>
+        </tr>
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            // Display all items except the last score summary item 
+            // which will be displayed separately below.
+            if (i < Model.Count() - 1)
+            {
+                var item = Model.ElementAt(i);
+                <tr>
+                    <td>
+                        @item.UserName
+                    </td>
+                    <td>
+                        @item.ScoreText
+                    </td>
+                    <td>
+                        <a asp-action="Remove" asp-route-userId="@item.UserId">
+                            Remove from Temp Users
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        @{
+            // Display the last item which is the score summary.
+            var lastItem = Model.Last();
+            <tr>
+                <td colspan="3" class="bg-black text-white">
+                    @Html.Raw(lastItem.ScoreText) 
+                    @* Since lastItem.ScoreText contains HTML. *@
+                </td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p class="bg-success text-white">No temporary users.</p>
+}
