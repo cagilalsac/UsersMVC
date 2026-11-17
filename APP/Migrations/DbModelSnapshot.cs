@@ -30,7 +30,7 @@ namespace APP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("APP.Domain.Status", b =>
@@ -46,7 +46,7 @@ namespace APP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Statuses", (string)null);
                 });
 
             modelBuilder.Entity("APP.Domain.User", b =>
@@ -95,7 +95,7 @@ namespace APP.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("APP.Domain.UserRole", b =>
@@ -116,7 +116,7 @@ namespace APP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("APP.Domain.User", b =>

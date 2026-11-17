@@ -25,7 +25,7 @@ namespace APP.Authentication.Services
         /// Also a cookie named ".AspNetCore.Cookies" is created 
         /// in the browser to maintain the authenticated session.
         /// </returns>
-        public Task<CommandResponse> Login(LoginRequest request);
+        public Task<CommandResponse> LoginAsync(LoginRequest request);
 
         /// <summary>
         /// Signs out the currently authenticated user by removing 
@@ -34,7 +34,7 @@ namespace APP.Authentication.Services
         /// <returns>
         /// A Task representing the asynchronous sign-out operation.
         /// </returns>
-        public Task Logout();
+        public Task LogoutAsync();
 
         /// <summary>
         /// Registers a new user with the default "User" role and 

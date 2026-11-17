@@ -50,7 +50,7 @@ namespace CORE.Authentication.Services
         /// sessions.</param>
         /// <returns>A task representing the asynchronous 
         /// sign-in operation.</returns>
-        public async Task SignIn(int userId, string userName, 
+        public async Task SignInAsync(int userId, string userName, 
             IEnumerable<string> userRoleNames, 
             DateTime? expiration = default, 
             bool isPersistent = true)
@@ -99,7 +99,7 @@ namespace CORE.Authentication.Services
         /// </summary>
         /// <returns>A task representing the asynchronous sign-out operation.
         /// </returns>
-        public async Task SignOut()
+        public async Task SignOutAsync()
         {
             // Sign out the user by removing the authentication cookie
             // from the current HTTP context.

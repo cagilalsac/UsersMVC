@@ -8,7 +8,7 @@ namespace APP.Models
     public class StatusRequest : Record
     {
         // Copy all the non navigation properties from Status entity.
-        [Required, StringLength(5)]
+        [Required, StringLength(10)]
         public string Title { get; set; }
     }
 }

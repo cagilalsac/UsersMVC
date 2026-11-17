@@ -29,7 +29,7 @@
         /// sessions.</param>
         /// <returns>A task representing the asynchronous 
         /// sign-in operation.</returns>
-        public Task SignIn(int userId, string userName, 
+        public Task SignInAsync(int userId, string userName, 
             IEnumerable<string> userRoleNames, 
             DateTime? expiration = default, 
             bool isPersistent = true);
@@ -40,6 +40,6 @@
         /// </summary>
         /// <returns>A task representing the asynchronous 
         /// sign-out operation.</returns>
-        public Task SignOut();
+        public Task SignOutAsync();
     }
 }

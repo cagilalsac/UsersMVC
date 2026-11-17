@@ -53,7 +53,7 @@ namespace MVC.Controllers
             // Validate input model (checks required fields and
             // string lengths through data annotations).
             {
-                var response = await _authService.Login(request); 
+                var response = await _authService.LoginAsync(request); 
                 // Attempt to authenticate user.
                 if (response.IsSuccessful)
                     return RedirectToAction("Index", "Home"); 
@@ -79,7 +79,7 @@ namespace MVC.Controllers
         [Route("~/[action]")]
         public async Task<IActionResult> Logout()
         {
-            await _authService.Logout(); 
+            await _authService.LogoutAsync(); 
             // Sign out the user.
             return RedirectToAction(nameof(Login)); 
             // Redirect to the Login view through the Login action.

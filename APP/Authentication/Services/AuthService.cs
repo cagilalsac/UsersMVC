@@ -72,7 +72,7 @@ namespace APP.Authentication.Services
         /// Also a cookie named ".AspNetCore.Cookies" is created 
         /// in the browser to maintain the authenticated session.
         /// </returns>
-        public async Task<CommandResponse> Login(LoginRequest request)
+        public async Task<CommandResponse> LoginAsync(LoginRequest request)
         {
             /*
             Synchronous methods execute tasks one after another. 
@@ -108,7 +108,7 @@ namespace APP.Authentication.Services
             // Sign in the user using cookie authentication,
             // passing user ID, user name, and role names
             // as parameters.
-            await _cookieAuthService.SignIn(
+            await _cookieAuthService.SignInAsync(
                 userEntity.Id,
                 userEntity.UserName,
                 userEntity.UserRoles.Select(ur => ur.Role.Name));
@@ -124,7 +124,7 @@ namespace APP.Authentication.Services
         /// <returns>
         /// A Task representing the asynchronous sign-out operation.
         /// </returns>
-        public async Task Logout()
+        public async Task LogoutAsync()
         {
             // Find the User entity by authenticated user's ID
             // to update the online status.
@@ -138,7 +138,7 @@ namespace APP.Authentication.Services
             }
 
             // Perform sign out using the cookie authentication service.
-            await _cookieAuthService.SignOut();
+            await _cookieAuthService.SignOutAsync();
         }
 
         /// <summary>
